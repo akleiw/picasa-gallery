@@ -108,7 +108,6 @@ function PhotoViewer() {
     setTimeout(function() {
       controls.removeClass('visible')
     }, 2000)
-    requestFullScreen()
 
     if (history.pushState) history.pushState('open', null)
     loadPhoto()
