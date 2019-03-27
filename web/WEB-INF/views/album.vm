@@ -129,7 +129,6 @@
   </div>
 </div>
 
-#parse('sharing.vm')
 
 <script>var thumbsView = new ThumbsView(144)</script>
 

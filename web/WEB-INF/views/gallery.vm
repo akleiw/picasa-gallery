@@ -45,7 +45,6 @@
   </p>
 </div>
 
-#parse('sharing.vm')
 
 <script>new ThumbsView(212)</script>
 
