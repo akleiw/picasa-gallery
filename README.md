@@ -22,7 +22,6 @@ Features
 - Dark theme that emphasizes photos
 - Shows your shared albums
 - HDPI/Retina screens use hi-res thumbnails
-- Search within the gallery (by tags, keywords, descriptions, etc) - *currently not supported by Google in the new API*
 - Nice shareable URLs for albums, individual photos, search results
 - Gallery map if albums are geotagged - *geotagging is not available in the API - use web/content to provide location data*
 - Optional content/blog in Markdown format - put it into `web/content`, see [content branch](https://github.com/angryziber/picasa-gallery/tree/content) for a sample
@@ -37,7 +36,7 @@ Features
 - Showing of a single (weighted) random photo from all albums, just add "?random" parameter
 - ChromeCast support - send currently viewed photo to the TV
 
-How to use it for your own photos [![Build Status](https://travis-ci.org/angryziber/picasa-gallery.svg?branch=master)](https://travis-ci.org/angryziber/picasa-gallery)
+How to use it for your own photos [![Actions Status](https://github.com/angryziber/picasa-gallery/workflows/CI/badge.svg)](https://github.com/angryziber/picasa-gallery/actions)
 =================================
 
 - Clone this repository as described on Github
@@ -54,15 +53,12 @@ How to use it for your own photos [![Build Status](https://travis-ci.org/angryzi
 
 ## Picasaweb retirement and Google Photos API limitations
 
-Since the beginning of 2016, Google has started removing features from Picasaweb API, and now the
-whole Picasaweb service has been closed, being replaced by Album Archive.
-
-Now the Picasaweb API has been finally replaced by the new Google Photos API, which is unlike the old API,
+Now the Picasaweb API has been finally replaced by the new Google Photos API, which unlike the old API,
 is not tailored to public sharing. This app overcomes this by authorizing the access with your Google
-account and provided the `web/content` (see above) to selects visible albums and provide location and other metadata
+account and provides the `web/content` (see above) to select visible albums and provide location and other metadata
 that Google Photos API no longer returns.
 
 Unfortunately, as of now, Google Photos API is quite slow, with response sizes limited and taking several seconds to complete.
-Probably the reason is that it now generates expiring image URLs (in about 1 hour).
+Probably the reason is that it now generates expiring image URLs (for ~1 hour).
 This limitation also makes it harder to cache and reload efficiently. Also, location metadata is not provided and even
 stripped from the embedded Exif. Hopefully these issues will be resolved in future.

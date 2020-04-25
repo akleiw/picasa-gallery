@@ -8,14 +8,11 @@ import kotlin.system.measureNanoTime
 class JsonLoader(private val http: Http = Http()) {
   private val gson = Gson()
 
-  fun <T, R: JsonResponse<T>> load(auth: OAuth, url: String, responseType: KClass<out R>, params: Map<String, Any?>): R {
+  fun <T, R: JsonResponse<T>> load(auth: OAuth, url: String, responseType: KClass<out R>, params: Map<String, Any?>): R = logTime("$url $params loaded") {
     val fullUrl = (Config.apiBase.takeUnless { url.startsWith("http") } ?: "") + url
     val request = if (url.endsWith("search")) http.send(auth, fullUrl, gson.toJson(params))
                   else http.send(auth, fullUrl + params.toUrl())
-
-    return request.use {
-      gson.fromJson(it.bufferedReader(), responseType.java)
-    }
+    request.use { gson.fromJson(it.bufferedReader(), responseType.java) }
   }
 
   fun <T, R: JsonResponse<T>> loadAll(auth: OAuth, url: String, responseType: KClass<out R>, params: Map<String, Any?> = emptyMap()): List<T> {
@@ -39,7 +36,7 @@ abstract class JsonResponse<T> {
   var nextPageToken: String? = null
 }
 
-data class Profile(var id: String? = null, var name: String? = null, var link: String? = null, var picture: String? = null): JsonResponse<Profile>() {
+data class Profile(var id: String? = null, var name: String? = null, var picture: String? = null): JsonResponse<Profile>() {
   override val items get() = listOf(this)
   val slug get() = name?.toLowerCase()?.replace(' ', '.')
 }
@@ -79,12 +76,12 @@ class PhotosResponse: JsonResponse<JsonMediaItem>() {
 }
 
 data class JsonMediaItem(
-    var id: String = "",
-    var description: String? = null,
-    var baseUrl: BaseUrl = BaseUrl(""),
-    var productUrl: String? = null,
-    var filename: String = "",
-    var mediaMetadata: MediaMetadata? = null
+  var id: String = "",
+  var description: String? = null,
+  var baseUrl: BaseUrl = BaseUrl(""),
+  var productUrl: String? = null,
+  var filename: String = "",
+  var mediaMetadata: MediaMetadata? = null
 )
 
 data class MediaMetadata(

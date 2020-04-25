@@ -8,13 +8,13 @@ fun sitemap(host: String, profile: Profile?, gallery: Gallery) = """
 <urlset xmlns="http://www.google.com/schemas/sitemap/0.9">
   <url>
     <loc>https://$host/${profile?.slug ?: ""}</loc>
-    <lastmod>${gallery.values.first().timestampISO}</lastmod>
+    <lastmod>${gallery.albums.values.first().timestampISO}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1</priority>
   </url>
-  ${gallery.values.each { """
+  ${gallery.albums.values.each { """
     <url>
-      <loc>https://$host/$name</loc>
+      <loc>https://$host$url</loc>
       <lastmod>$timestampISO</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.8</priority>

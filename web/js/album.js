@@ -76,7 +76,8 @@ function PhotoViewer() {
   }
 
   pub.addPhotos = function() {
-    $('a.photo').slice(photos.length).each(function() {
+    var photoLinks = $('a.photo')
+    photoLinks.slice(photos.length).each(function() {
       var title = $('img', this).attr('alt')
       photos.push({
         url: this.dataset.url,
@@ -89,7 +90,11 @@ function PhotoViewer() {
       this.href = '#' + this.id
       if (title) this.setAttribute('title', title)
     })
-    if (location.hash) $('a' + location.hash).click();
+    if (location.hash) {
+      var idx = parseInt(location.hash.substring(1))
+      if (idx) photoLinks.eq(idx - 1).click()
+      else $('a' + location.hash).click()
+    }
   }
 
   pub.open = function() {
@@ -172,8 +177,8 @@ function PhotoViewer() {
     requestFullScreen = $.noop
   }
 
-  function stateURL(photo) {
-    return photo ? '#' + photo.id : location.href.replace(/#.*/, '')
+  function stateURL(index) {
+    return index >= 0 ? '#' + (index + 1) : location.href.replace(/#.*/, '')
   }
 
   function showTimeRemaining() {
@@ -225,7 +230,7 @@ function PhotoViewer() {
     return false
   }
 
-  function posAction(x, y) {
+  function posAction(x) {
     var img = wrapper.find('img.photo')
     if (!img.length) return pub.close
     var left = img.offset().left
@@ -241,10 +246,10 @@ function PhotoViewer() {
   var lastMousePos
 
   function onMouseMove(e) {
-    var newMousePos = e.pageX + ":" + e.pageY
-    if (lastMousePos != newMousePos) {
+    var newMousePos = e.pageX + ':' + e.pageY
+    if (lastMousePos !== newMousePos) {
       var action = posAction(e.pageX, e.pageY)
-      var cursor = action == pub.prev ? 'url(/img/left-cursor.png),w-resize' : action == pub.next ? 'url(/img/right-cursor.png),e-resize' : 'default'
+      var cursor = action === pub.prev ? 'url(/img/left-cursor.png),w-resize' : action === pub.next ? 'url(/img/right-cursor.png),e-resize' : 'default'
       wrapper.css('cursor', cursor)
     }
     lastMousePos = newMousePos
@@ -369,7 +374,7 @@ function PhotoViewer() {
     if (photo.title) title.fadeIn()
     else title.fadeOut()
 
-    if (history.replaceState) history.replaceState(stateURL(photo), photo.title, stateURL(photo))
+    if (history.replaceState) history.replaceState(stateURL(index), photo.title, stateURL(index))
     if ('ga' in window) ga('send', 'event', location.pathname, location.hash)
 
     position.text((index + 1) + ' of ' + photos.length)

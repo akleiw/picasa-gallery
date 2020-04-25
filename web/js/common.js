@@ -1,10 +1,14 @@
 'use strict'
 
 function fadeTo(href) {
-  $('#content').addClass('faded')
+  var content = $('#content').addClass('faded')
   setTimeout(function() {
-    location.href = href
-  }, 500)
+    content.remove()
+    $('body').append('<div class="loader"></div>')
+    setTimeout(function() {
+      location.href = href
+    })
+  }, 400)
 }
 
 function createMap(selector, moreOpts) {
@@ -49,11 +53,6 @@ $(function() {
 
   $('a.fade').on('click', function() {
     fadeTo(this.href)
-    return false
-  })
-
-  $('form#search').on('submit', function() {
-    fadeTo('/?q=' + $(this).find('input').val() + location.search.replace(/\?q=.*?(&|$)/, '&'))
     return false
   })
 })

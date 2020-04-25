@@ -1,5 +1,0 @@
-language: java
-jdk:
-  - oraclejdk8
-automatic_scaling:
-    max_instances: 1

@@ -20,7 +20,10 @@ function ThumbsView(thumbSize) {
   function setSrc(img) {
     if (!img.src) {
       var baseUrl = img.parentElement.dataset.url
-      img.src = baseUrl + '=w' + scaledThumbSize + '-h' + scaledThumbSize + '-c'
+      if (baseUrl.endsWith('.jpg'))
+        img.src = baseUrl + (pixelRatio >= 1.5 ? '?x2' : '')
+      else
+        img.src = baseUrl + '=w' + scaledThumbSize + '-h' + scaledThumbSize + '-c'
       delete img.parentElement.dataset.url
     }
   }
@@ -41,6 +44,18 @@ function ThumbsView(thumbSize) {
       }
       else if (found) return false
     })
+  }
+
+  self.loadMore = function(nextPageToken) {
+    if (nextPageToken) {
+      var thumbs = $('.thumbs').append('<a class="album-part-loader"><div class="loader"></div></a>')
+      $.get(location.pathname + (location.search ? location.search + '&' : '?') + 'pageToken=' + nextPageToken).then(function(html) {
+        thumbs.find('.album-part-loader').remove()
+        thumbs.append(html)
+        self.loadVisibleThumbs()
+      })
+    }
+    else self.loadingFinished = true
   }
 
   var lastEventTimestamp = 0

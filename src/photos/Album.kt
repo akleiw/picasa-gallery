@@ -1,15 +1,18 @@
 package photos
 
+import java.util.*
+
 open class Album(
     id: String? = null,
     name: String? = null,
     title: String? = null,
     var content: String? = null
 ) : Entity(id, title) {
-
   companion object {
     val descriptionRegex = Regex("<h2>(.*?)</h2>")
   }
+
+  val url get() = "/$name"
 
   var size = 0
 
@@ -29,12 +32,21 @@ open class Album(
 
   var comments: List<Comment> = emptyList()
 
-  val thumbUrl: String?
-    get() = baseUrl?.crop(212)
+  val thumbSize = 212
+  var thumbContent: ByteArray? = null
+  var thumbContent2x: ByteArray? = null
+
+  override val thumbUrlLarge: String? get() = "$url.jpg?x2"
 
   open fun size() = size
 }
 
-data class AlbumPart(val photos: List<Photo>, val nextPageToken: String?)
+data class AlbumPart(val photos: List<Photo>, val nextPageToken: String?) {
+  val loadedAt = Date()
+}
 
-typealias Gallery = Map<String, Album>
+class Gallery(val albums: Map<String, Album>) {
+  val loadedAt = Date()
+
+  operator fun get(albumName: String) = albums[albumName]
+}

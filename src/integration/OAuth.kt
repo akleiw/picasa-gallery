@@ -14,15 +14,19 @@ data class OAuth(var refreshToken: String?, val isDefault: Boolean = false) {
     val default = OAuth(Config.oauthRefreshToken, isDefault = true)
     val auths: MutableMap<String, OAuth> = mutableMapOf()
 
-    private val service = ServiceBuilder()
-      .apiKey(Config.oauthClientId)
-      .apiSecret(Config.oauthClientSecret)
-      .callback("http://localhost:8080/oauth")
-      .build(GoogleApi20.instance())
+    private val service by lazy {
+      ServiceBuilder()
+        .apiKey(Config.oauthClientId)
+        .apiSecret(Config.oauthClientSecret)
+        .callback("http://localhost:8080/oauth")
+        .build(GoogleApi20.instance())
+    }
   }
 
   private var expiresAt: Long = 0
   private val isExpired get() = expiresAt <= System.currentTimeMillis()
+
+  val isInitialized get() = refreshToken != null
 
   private var token: OAuth2AccessToken? = null
     get() {
