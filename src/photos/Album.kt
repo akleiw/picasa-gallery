@@ -13,7 +13,7 @@ open class Album(
 
   var size = 0
 
-  val contentIsLong get() = (content?.length ?: 0) > 300
+  val contentIsLong get() = (content?.length ?: 0) > 500
 
   val description = content?.let { descriptionRegex.find(it)?.groups?.get(1)?.value } ?: ""
 

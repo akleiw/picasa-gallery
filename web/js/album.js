@@ -138,14 +138,14 @@ function PhotoViewer() {
   }
 
   pub.next = function() {
+    if (index == photos.length -1) return
     index++
-    if (index >= photos.length) index = 0
     loadPhoto()
   }
 
   pub.prev = function() {
+    if (index == 0) return
     index--
-    if (index < 0) index = photos.length - 1
     loadPhoto()
   }
 
@@ -231,8 +231,10 @@ function PhotoViewer() {
     var left = img.offset().left
     var right = left + img.width()
     var delta = img.width() / 4
-    if (x >= left - 20 && x <= left + delta) return pub.prev
-    else if (x >= right - delta && x <= right + 20) return pub.next
+    //if (x >= left - 20 && x <= left + delta) return pub.prev
+    //else if (x >= right - delta && x <= right + 20) return pub.next
+    if (x <= left + delta) return pub.prev
+    else if (x >= right - delta && index < photos.length - 1) return pub.next
     else return pub.close
   }
 
@@ -325,7 +327,7 @@ function PhotoViewer() {
     var img = $(this)
     wrapper.append(img)
     centerImage(img)
-    img.fadeIn(function() {
+    img.fadeIn("fast", function() {
       updateScrollPosition(photo)
     })
     wrapper.css('cursor', 'none')
@@ -351,7 +353,7 @@ function PhotoViewer() {
   function loadPhoto() {
     loader.show()
     wrapper.css('cursor', 'wait')
-    wrapper.find('img.photo').fadeOut(function() {
+    wrapper.find('img.photo').fadeOut("fast", function() {
       $(this).remove()
     })
 
@@ -392,6 +394,7 @@ function PhotoViewer() {
   }
 
   function updateScrollPosition(photo) {
+    return
     setTimeout(function() {
       var thumbPos = $('#' + photo.id).offset()
       var scrollTop = w.scrollTop()

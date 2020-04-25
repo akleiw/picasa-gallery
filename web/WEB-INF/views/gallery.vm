@@ -41,7 +41,6 @@
     <a href="?random${picasa.urlSuffix.replace('?', '&')}" rel="nofollow">Random photo</a>.
     <br>
     Rendered by <a href="https://github.com/angryziber/picasa-gallery">Picasa Gallery</a>.
-    View your <a href="/oauth" rel="nofollow">own gallery</a>.
   </p>
 </div>
 
