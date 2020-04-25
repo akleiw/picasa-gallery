@@ -88,7 +88,7 @@ class Picasa(
   }
 
   private fun List<JsonAlbum>.toGallery(): Gallery = asSequence()
-    .filter { localContent == null || localContent.contains(it.name) }
+    /*.filter { localContent == null || localContent.contains(it.name) }*/
     .filter { it.title != null && it.mediaItemsCount > 1 }.map {
       val albumContent = localContent?.forAlbum(it.name)
       it.name to Album(it.id, it.name, it.title, albumContent?.content).apply {

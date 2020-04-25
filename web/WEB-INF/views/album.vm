@@ -35,7 +35,7 @@
   </script>
 </head>
 
-<body style="background:black; color: gray">
+<body style="background:#f3f5f6; color: gray">
 
 <div id="header" class="header">
   <a href="/${picasa.urlSuffix}" class="button fade">More albums</a>
@@ -129,7 +129,6 @@
   </div>
 </div>
 
-#parse('sharing.vm')
 
 <script>var thumbsView = new ThumbsView(144)</script>
 

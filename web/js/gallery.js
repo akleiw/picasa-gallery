@@ -25,7 +25,7 @@ function GalleryMap() {
     $(document).on('webkitfullscreenchange mozfullscreenchange fullscreenchange', function() {
       if (document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen) {
         if (map.getZoom() < hoverZoom) {
-          map.setCenter(latLng(0, 0))
+          map.setCenter(latLng(49, 14))
           map.setZoom(hoverZoom - 1)
         }
       }
@@ -33,8 +33,8 @@ function GalleryMap() {
   }
 
   function resetBounds(map) {
-    map.setCenter(latLng(0, 0))
-    map.setZoom(0)
+    map.setCenter(latLng(49, 14))
+    map.setZoom(4)
   }
 
   function albumThumbHover(thumb, map, marker) {
