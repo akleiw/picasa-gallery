@@ -17,10 +17,6 @@ fun album(album: Album, albumPart: AlbumPart, profile: Profile, req: RequestProp
   <meta property="og:title" content="${+album.title} photos by ${+profile.name}">
   <meta property="og:image" content="https://${req.host}${album.thumbUrlLarge}">
   <link rel="image_src" href="https://${req.host}${album.thumbUrlLarge}">
-  ${album.geo / """
-    <meta property="og:latitude" content="${album.geo!!.lat}">
-    <meta property="og:longitude" content="${album.geo!!.lon}"> 
-  """}
   <meta property="og:description" content="${+album.description}">
   <meta property="og:site_name" content="${+profile.name} Photography">
 
@@ -64,13 +60,13 @@ fun album(album: Album, albumPart: AlbumPart, profile: Profile, req: RequestProp
             if (new Date() - jQuery(this).data('time') < 300)
               jQuery(this).toggleClass('closed');
           })
-      </script> 
+      </script>
     """ else """
       ${album.content}
-    """}    
+    """}
   """ else if (album.description.isNotEmpty()) """
     <h1>${+album.title}</h1>
-    <h2>${+album.description}</h2> 
+    <h2>${+album.description}</h2>
   """ else ""}
   <br>
 
