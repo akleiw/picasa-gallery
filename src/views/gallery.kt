@@ -30,7 +30,6 @@ fun gallery(req: RequestProps, gallery: Gallery, profile: Profile) = """
   <div class="albums thumbs">
     ${gallery.albums.values.each { """
       <a id="${+name}" class="fade" href="${url}${req.urlSuffix}"
-         ${geo / """data-coords="${geo!!.lat}:${geo!!.lon}""""}
          data-url="${url}.jpg">
         <img alt="${+title} photos" title="${+description}">
 
